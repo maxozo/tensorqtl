@@ -465,6 +465,10 @@ class InputGeneratorCis(object):
             self.phenotype_end = self.phenotype_pos_df['end'].to_dict()
         self.n_phenotypes = self.phenotype_df.shape[0]
 
+        # This fixes the cases where we do not have any phenotypes to test on a particular chromosem. Hence it will avaid looping through this chr. 
+        phenotype_chrs = self.phenotype_pos_df['chr'].unique()
+        self.chrs = [i for i in phenotype_chrs if i in variant_chrs]
+        
         if group_s is not None:
             self.group_s = group_s.loc[self.phenotype_df.index].copy()
             self.n_groups = self.group_s.unique().shape[0]
